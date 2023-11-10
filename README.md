@@ -63,7 +63,12 @@ networks:
   my_network:
     driver: bridge
     external: true
-
+* Executed the command "docker compose up" to build the images and deploy the changes locally. This creates two containers, each visible on the port assigned
+  ### Logs:
+  [+] Running 2/2
+ - Container nginx_container  Created                                                                  0.3s 
+ - Container httpd_container  Created                                                                  0.3s 
+  Attaching to httpd_container, nginx_container
 
 ## Step 5: Verify that the httpd container is deployed on port 81:
  ### Logs:
@@ -118,3 +123,56 @@ networks:
     }
 ]
 
+## Step 7: Remove nginx_container
+Executed the command "docker rm nginx_container"
+
+## Step 8: Creating a new nginx container with the name nginx_container_2 and connecting it with the same network
+* Modified the compose file and changed the name of nginx container
+  ### File:
+version: "3.9"
+services:
+  nginx_container:
+    container_name: nginx_container_2
+    image: nginx
+    ports:
+      - "82:80"
+    networks:
+      - my_network 
+  httpd:
+    container_name: httpd_container
+    image: httpd
+    ports:
+      - "81:80"
+    networks:
+      - my_network
+  
+networks:
+  my_network:
+    driver: bridge
+    external: true
+
+    
+* Executed "docker compose up" to build the images
+  ### Logs:
+  [+] Running 2/2
+ - Container nginx_container_2  Created                                                           0.1s 
+ - Container httpd_container    Created                                                           0.0s 
+  Attaching to httpd_container, nginx_container_2
+
+## Step 9: Check if the changes are visible on port 82
+### Logs:
+2023-11-10 17:51:00 2023/11/10 12:51:00 [error] 30#30: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.26.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:82", referrer: "http://localhost:82/"
+
+## Step 10:
+Docker container ls:
+### Logs:
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                NAMES
+ea7e82c1120c   httpd     "httpd-foreground"       2 minutes ago   Up 2 minutes   0.0.0.0:81->80/tcp   httpd_container
+c3718fcc8dd9   nginx     "/docker-entrypoint.…"   2 minutes ago   Up 2 minutes   0.0.0.0:82->80/tcp   nginx_container_2
+
+## Step 11:
+* Executed the command "docker stop nginx_container_2 httpd_container"
+* Exceuted the command "docker rm nginx_container_2 httpd_container"
+
+##Step 12:
+Executed the command "docker rm network my_network"
