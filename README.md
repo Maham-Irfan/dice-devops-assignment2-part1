@@ -1,9 +1,7 @@
-# dice-devops-assignment2-part1
 
-## Step 1: Creating a network
-# dice-devOps-assignment2-part2
+# DEVOPS - Assignment 2 - Part 1
 
-## Step 1: Displaying Hello World on the web and making a docker file:
+## Step 1: Creating a network witht the name my_network:
 * Git hub repository created
 * Executed the command "docker network create my_network"
 
@@ -174,5 +172,5 @@ c3718fcc8dd9   nginx     "/docker-entrypoint.…"   2 minutes ago   Up 2 minutes
 * Executed the command "docker stop nginx_container_2 httpd_container"
 * Exceuted the command "docker rm nginx_container_2 httpd_container"
 
-##Step 12:
+## Step 12:
 Executed the command "docker rm network my_network"
